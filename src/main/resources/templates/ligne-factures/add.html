@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
+<link rel="stylesheet" th:href="@{/css/main.css}"/>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<nav class="navbar bg-body-tertiary" style="background: #454A4D!important "
+     th:include="parts/fragments :: header"></nav>
+<form th:object="${ligneFacture}" method="post">
+    <div class="m-5">
+        <label for="prixHt" class="form-label text-white">Prix HT</label>
+        <input
+                th:field="*{prixHt}"
+                type="number"
+                step="0.01"
+                th:class="${#fields.hasErrors('prixHt')}?'is-invalid form-control':'form-control'"
+                id="prixHt">
+    </div>
+    <div class="m-5">
+        <label for="quantity" class="form-label text-white">Quantite</label>
+        <input
+                th:field="*{quantity}"
+                type="number"
+                step="1"
+                th:class="${#fields.hasErrors('quantity')}?'is-invalid form-control':'form-control'"
+                id="quantity">
+    </div>
+    <div class="m-5 form-check">
+        <label for="tva-select" class="text-white">TVA</label>
+        <select th:field="*{tva}" name="TVA" id="tva-select">
+            <th:block th:each="tva : ${tvas}">
+                <option th:value="${tva.id}" th:utext="${tva.taux}"></option>
+            </th:block>
+        </select>
+    </div>
+    <div class="m-5">
+        <label for="designation" class="form-label text-white">Designation</label>
+        <textarea
+                th:field="*{designation}"
+                type="text"
+                th:class="${#fields.hasErrors('designation')}?'is-invalid form-control':'form-control'"
+                id="designation">Texte par défaut</textarea>
+    </div>
+    <div class="text-center">
+        <button type="submit" class="btn btn-primary align-self-center">Submit</button>
+    </div>
+</form>
+
+<div class="d-flex  justify-content-center text-white py-3 my-4 border-top"
+     th:include="parts/fragments :: footer"></div>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Detail</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/main.css}"/>
+
+
+</head>
+<body>
+<nav class="navbar bg-body-tertiary" style="background: #454A4D!important "
+     th:include="parts/fragments :: header"></nav>
+
+<div class="row mb-3">
+    <div class="container">
+        <a th:href="@{/ligne/{facture}(facture=${facture.id})}">
+            <button>Voir les lignes</button>
+        </a>
+        <a th:href="@{/pdf/{facture}(facture=${facture.id})}">
+            <button>Exporter en PDF</button>
+        </a>
+    </div>
+</div>
+
+<div class="row mb-3">
+    <div class="col-sm-6 mb-3 mb-sm-0">
+        <div class="card paid">
+            <div class="card-body">
+                <h5 class="card-title">Emetteur de la facture </h5>
+                <p class="card-text" th:utext="'Siret : ' + ${facture.emeteur.siret}"></p>
+                <p class="card-text"
+                   th:utext="'Adresse : ' + ${facture.emeteur.numeroRue} + ' ' + ${facture.emeteur.rue} + ', ' + ${facture.emeteur.codePostal} + ' ' + ${facture.emeteur.ville} "></p>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6 mb-3 mb-sm-0">
+        <div class="card paid">
+            <div class="card-body">
+                <h5 class="card-title">Destinataire </h5>
+                <p class="card-text" th:utext="'Siret : ' + ${facture.client.siret}"></p>
+                <p class="card-text"
+                   th:utext="'Adresse : ' + ${facture.client.numeroRue} + ' ' + ${facture.client.rue} + ', ' + ${facture.client.codePostal} + ' ' + ${facture.client.ville} "></p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Quantité</th>
+            <th scope="col">Description</th>
+            <th scope="col">Prix unitaire HT</th>
+            <th scope="col">TVA</th>
+            <th scope="col">Total HT</th>
+        </tr>
+        </thead>
+        <tbody>
+        <th:block th:each="ligne : ${facture.lignes}">
+            <tr>
+                <td th:utext="${ligne.quantity}"></td>
+                <td th:utext="${ligne.designation}"></td>
+                <td th:utext="${ligne.prixHt} + '€'"></td>
+                <td th:utext="${ligne.tva.taux} + '%'"></td>
+                <td th:utext="${#numbers.formatDecimal((ligne.quantity * ligne.prixHt), 1, 'DEFAULT', 2, 'DEFAULT')} + '€'"></td>
+            </tr>
+        </th:block>
+        <th:block>
+        <tr>
+            <th> Total HT</th>
+            <td th:utext="${#numbers.formatDecimal(facture.totalHT, 1, 'DEFAULT', 2, 'DEFAULT') + '€'}"></td>
+        </tr>
+        <tr>
+            <th> Total TTC</th>
+            <td th:utext="${#numbers.formatDecimal(facture.totalTTC, 1, 'DEFAULT', 2, 'DEFAULT') + '€'}"></td>
+
+        </tr>
+        </th:block>
+        </tbody>
+    </table>
+</div>
+<div class="d-flex  justify-content-center text-white py-3 my-4 border-top" th:include="parts/fragments :: footer"></div>
+</body>
+</html>

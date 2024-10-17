@@ -1,0 +1,20 @@
+body{
+    background: #454A4D;
+}
+
+.paid{
+    background : #18BF83;
+}
+
+.not-paid{
+    background : #BF1830;
+}
+
+
+.table tbody tr:nth-child(odd) {
+    background-color: #18BF83!important; /* Gris clair */
+}
+
+.table tbody tr:nth-child(even) {
+    background-color: #f1aeb5!important; /* Blanc */
+}

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:javascript="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Lignes facture</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/main.css}"/>
+
+</head>
+<body>
+<nav class="navbar bg-body-tertiary" style="background: #454A4D!important "
+     th:include="parts/fragments :: header"></nav>
+<div class="row">
+    <div class="container">
+        <a th:href="@{/detail/{facture}(facture=${facture.id})}">
+            <button>Retour</button>
+        </a>
+        <a th:href="@{/ligne/{facture}/ajout(facture=${facture.id})}">
+            <button>Ajouter une ligne</button>
+        </a>
+    </div>
+</div>
+<div class="container">
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Identifiant</th>
+            <th scope="col">Quantité</th>
+            <th scope="col">Description</th>
+            <th scope="col">Prix unitaire HT</th>
+        </tr>
+        </thead>
+        <tbody>
+        <th:block th:each="ligne : ${facture.lignes}">
+            <tr>
+                <td th:utext="${ligne.id}"></td>
+                <td th:utext="${ligne.quantity}"></td>
+                <td th:utext="${ligne.designation}"></td>
+                <td th:utext="${ligne.prixHt} + '€'"></td>
+
+            </tr>
+        </th:block>
+        </tbody>
+    </table>
+</div>
+<div class="d-flex  justify-content-center text-white py-3 my-4 border-top" th:include="parts/fragments :: footer"></div>
+</body>
+</html>

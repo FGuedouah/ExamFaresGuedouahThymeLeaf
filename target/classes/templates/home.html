@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/main.css}"/>
+</head>
+
+<body>
+<nav class="navbar bg-body-tertiary mb-3" style="background: #454A4D!important " th:include="parts/fragments :: header" ></nav>
+
+<div class="row">
+    <th:block th:each="facture : ${factures}">
+        <div class="col-sm-6 mb-3 mb-sm-0">
+            <div class="card">
+                <div class="card-body text-center" th:classappend="${facture.datePayment != null} ? 'paid' : 'not-paid'">
+                    <h3 class="card-title" th:utext=" 'Facture n°' + ${facture.id}"></h3>
+                    <p class="card-text" th:utext="'Client : ' + ${facture.client.raisonSociale}"></p>
+                    <p class="card-text" th:utext="'Emetteur : ' + ${facture.emeteur.raisonSociale}"></p>
+                    <p class="card-text" th:if="${facture.datePayment != null}"
+                       th:utext="'Date de paiement : ' + ${#dates.format(facture.datePayment, 'dd/MM/YYYY')}"></p>
+                    <p class="card-text" th:if="${facture.datePayment == null}" th:utext="'A régler'" style="font-weight: bold"></p>
+
+                    <a th:href="@{detail/{facture}(facture=${facture.id})}">
+                        <button>Voir la facture</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </th:block>
+</div>
+<div class="d-flex  justify-content-center text-white py-3 my-4 border-top" th:include="parts/fragments :: footer"></div>
+</body>
+</html>

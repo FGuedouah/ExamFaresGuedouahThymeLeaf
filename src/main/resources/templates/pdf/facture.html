@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <title>Title</title>
+  <link rel="stylesheet" th:href="@{static/css/bootstrap.min.css}"/>
+</head>
+<body>
+<h1 th:utext="'Facture' + ${facture.id}"></h1>
+<h3 th:utext="'Client : ' + ${facture.client.raisonSociale}"></h3>
+<h3 th:utext="'Emetteur : ' + ${facture.emeteur.raisonSociale}"></h3>
+<div class="container">
+  <table class="table">
+    <thead>
+    <tr>
+      <th scope="col">Quantité</th>
+      <th scope="col">Description</th>
+      <th scope="col">Prix unitaire HT</th>
+      <th scope="col">TVA</th>
+      <th scope="col">Total HT</th>
+    </tr>
+    </thead>
+    <tbody>
+    <th:block th:each="ligne : ${facture.lignes}">
+      <tr>
+        <td th:utext="${ligne.quantity}"></td>
+        <td th:utext="${ligne.designation}"></td>
+        <td th:utext="${ligne.prixHt} + '€'"></td>
+        <td th:utext="${ligne.tva.taux} + '%'"></td>
+        <td th:utext="${#numbers.formatDecimal((ligne.quantity * ligne.prixHt), 1, 'DEFAULT', 2, 'DEFAULT')} + '€'"></td>
+      </tr>
+    </th:block>
+    <th:block>
+      <tr>
+        <th> Total HT</th>
+        <td th:utext="${#numbers.formatDecimal(facture.totalHT, 1, 'DEFAULT', 2, 'DEFAULT') + '€'}"></td>
+      </tr>
+      <tr>
+        <th> Total TTC</th>
+        <td th:utext="${#numbers.formatDecimal(facture.totalTTC, 1, 'DEFAULT', 2, 'DEFAULT') + '€'}"></td>
+
+      </tr>
+    </th:block>
+    </tbody>
+  </table>
+</div>
+</body>
+</html>
